@@ -3,8 +3,8 @@ Created on 01.06.2014
 
 @author: Schleppi
 '''
-from PyQt4.QtCore import QSettings, pyqtSignal, QObject
-from os.path import join, exists, normpath, isdir, isfile, basename, expanduser
+from PyQt4.QtCore import pyqtSignal, QObject
+from os.path import join, exists, normpath, isdir, isfile, basename
 from d2mp.utils import log
 import os, re, sys
 from shutil import rmtree, copytree
@@ -81,11 +81,11 @@ class ModManager(object):
                 os.makedirs(p)
             
     def _steam_path(self):
-        return Settings().get("steam_path")
+        return Settings().get(Settings.STEAM_PATH_KEY)
     
     @only_if_steam_installed
     def _dota_path(self):
-        return Settings().get("dota_path")
+        return Settings().get(Settings.DOTA_PATH_KEY)
         
     @ensure_exist
     @only_if_dota_installed
@@ -225,10 +225,8 @@ class ModManager(object):
             p = self._d2mp_path()
             for addon_dir in [join(p, f) for f in os.listdir(p)]:
                 if isdir(addon_dir):
-                    self._update_mod(basename(addon_dir), self._extract_mod_version(addon_dir)) 
-        if not self._cache.get('mods'): #if there's still nothing in the folder, program crashes
-            return []
-        return self._cache.get('mods')
+                    self._update_mod(basename(addon_dir), self._extract_mod_version(addon_dir))
+        return self._cache.get('mods', [])
     
     @only_if_dota_installed
     def mod_names(self):

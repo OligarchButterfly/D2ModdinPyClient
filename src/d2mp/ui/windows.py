@@ -10,7 +10,6 @@ from PyQt4.QtCore import Qt, QFileSystemWatcher
 from d2mp import SETTINGS
 from d2mp.utils import log
 from os.path import abspath, exists
-import re
 from d2mp.core.settings import Settings, is_dota_path_valid, is_steam_path_valid
 
 
@@ -65,7 +64,7 @@ class PreferencesWindow(BaseWindow):
         box.setLayout(QHBoxLayout(box))
         
         self.steam_path = QLineEdit(box)
-        self.steam_path.setEnabled(False)
+        self.steam_path.setReadOnly(True)
         self.steam_path.setText(Settings().get("steam_path"))
 
         change_btn = QPushButton("Change...", box)
@@ -81,7 +80,7 @@ class PreferencesWindow(BaseWindow):
         box.setLayout(QHBoxLayout(box))
         
         self.dota_path = QLineEdit(box)
-        self.dota_path.setEnabled(False)
+        self.dota_path.setReadOnly(True)
         self.dota_path.setText(Settings().get("dota_path"))
         
         change_btn = QPushButton("Change...", box)
@@ -115,6 +114,7 @@ class PreferencesWindow(BaseWindow):
         log_btn = QPushButton("View Log", box)
         log_btn.clicked.connect(self.open_log_file)
         reset_btn = QPushButton("Reset Settings", box)
+        reset_btn.clicked.connect(Settings().reset)
                 
         box.layout().addWidget(log_btn)
         box.layout().addWidget(reset_btn)
@@ -132,7 +132,6 @@ class PreferencesWindow(BaseWindow):
         self.layout().addWidget(box)
     
     def open_log_file(self):
-        # TODO: open file in standard editor
         log.INFO("TODO: open file in standard editor")
         print abspath(log.file_name)
     
