@@ -17,7 +17,7 @@ class ConnectionManager(QObject):
     
     offline = False
 
-    server = "ddp2.d2modd.in"
+    server = "net1.d2modd.in"
     port = 4502
     
     address = "ClientController"

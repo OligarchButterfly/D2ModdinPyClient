@@ -54,7 +54,7 @@ class Mod(object):
 class ModManager(object):
     
     _instance = None
-    VERSION = "2.3.8"
+    VERSION = "2.4.3"
     
     class signals(QObject):
         contact_server = pyqtSignal(object)
